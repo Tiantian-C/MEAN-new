@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   res.setHeader("ACCESS-control-Allow-Origin", "*");
   res.setHeader(
-    "ACCESS-control-Allow-Header",
+    "ACCESS-control-Allow-Headers",
     "Origin,X-Requested-With,Content-Type,Accept"
   );
   res.setHeader(

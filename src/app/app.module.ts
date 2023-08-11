@@ -15,6 +15,7 @@ import { HeaderComponet } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostsService } from './posts/posts.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +34,10 @@ import { PostsService } from './posts/posts.service';
     MatToolbarModule,
     MatExpansionModule,
   ],
-  providers: [PostsService],
+  providers: [
+    PostsService,
+  
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

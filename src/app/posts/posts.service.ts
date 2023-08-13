@@ -22,6 +22,7 @@ export class PostsService {
               title: post.title,
               content: post.content,
               id: post._id,
+              imagePath:post.imagePath
             };
           });
         })
@@ -40,17 +41,25 @@ export class PostsService {
     return this.http.get<{ _id: string; title: string; content:string}>('http://localhost:3000/api/posts/' + id);
   }
 
-  addPost(title: string, content: string) {
-    const post: Post = { id: null, title: title, content: content };
+  addPost(title: string, content: string,image:File) {
+    const postData = new FormData();
+    postData.append("title", title);
+    postData.append("content", content);
+    postData.append("image", image,title);
+
     this.http
-      .post<{ message: string; postId: string }>(
+      .post<{ message: string; post: Post }>(
         'http://localhost:3000/api/posts',
-        post
+        postData
       )
       //get back data from sever successfully
       .subscribe((responseData) => {
-        const id = responseData.postId;
-        post.id = id;
+        const post: Post = {
+          id: responseData.post.id,
+          title: title,
+          content: content,
+          imagePath:responseData.post.imagePath
+        };
         this.posts.push(post);
         this.postsUpdated.next([...this.posts]);
         this.router.navigate(["/"]);
@@ -58,7 +67,7 @@ export class PostsService {
   }
 
   updatePost(id: string, title: string, content: string) {
-    const post: Post = { id: id, title: title, content: content };//get all the data from the front end
+    const post: Post = { id: id, title: title, content: content ,imagePath:null};//get all the data from the front end
     this.http
       .put('http://localhost:3000/api/posts/' + id, post)
       .subscribe(response => {

@@ -54,6 +54,7 @@ export class PostsService {
       title: string;
       content: string;
       imagePath: string;
+      creator: string;
     }>('http://localhost:3000/api/posts/' + id);
   }
 
@@ -88,6 +89,7 @@ export class PostsService {
         title: title,
         content: content,
         imagePath: image as string,
+        creator:null
       };
     } //get all the data from the front end
 

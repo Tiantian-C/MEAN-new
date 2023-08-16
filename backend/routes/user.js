@@ -33,18 +33,14 @@ router.post("/login", (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
-        return res.status(401).json({
-          message: "Auth failed",
-        });
+        throw new Error("Auth failed");
       }
       fetchedUser = user;
       return bcrypt.compare(req.body.password, user.password);
     })
     .then((result) => {
       if (!result) {
-        return res.status(401).json({
-          message: "Auth failed",
-        });
+        throw new Error("Auth failed!");
       }
       const token = jwt.sign(
         { email: fetchedUser.email, userId: fetchedUser._id },
@@ -63,5 +59,6 @@ router.post("/login", (req, res, next) => {
       });
     });
 });
+
 
 module.exports = router;
